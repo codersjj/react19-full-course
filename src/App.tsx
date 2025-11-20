@@ -1,3 +1,9 @@
+const items = [
+  { id: 1, label: "Say hello" },
+  { id: 2, label: "Hi" },
+  { id: 3, label: "Click me" },
+];
+
 interface ButtonProps {
   children?: React.ReactNode;
 }
@@ -7,17 +13,12 @@ const Button = (props: ButtonProps) => {
   return <button>{children}</button>;
 };
 
-const Input = () => {
-  return <input placeholder="enter" />;
-};
-
 function App() {
   return (
     <div>
-      <Button>Click me</Button>
-      <Button>
-        <Input />
-      </Button>
+      {items.map((item) => {
+        return <Button key={item.id}>{item.label}</Button>;
+      })}
     </div>
   );
 }
