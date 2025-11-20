@@ -1,11 +1,10 @@
 interface ButtonProps {
-  title: string;
-  text?: string;
+  children?: React.ReactNode;
 }
 
 const Button = (props: ButtonProps) => {
-  const { text = "button" } = props;
-  return <button>{text}</button>;
+  const { children } = props;
+  return <button>{children}</button>;
 };
 
 const Input = () => {
@@ -15,13 +14,10 @@ const Input = () => {
 function App() {
   return (
     <div>
-      {/* HTML button with a built-in attribute */}
-      <button title="Click me">Click me</button>
-      {/* React component with a custom attribute (prop) */}
-      <Button title="Click me" />
-      <Button title="Hi" text="Hi" />
-      <Button title="Hello" text="Say hello" />
-      <Input />
+      <Button>Click me</Button>
+      <Button>
+        <Input />
+      </Button>
     </div>
   );
 }
