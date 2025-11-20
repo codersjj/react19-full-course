@@ -17,11 +17,22 @@ const Button = (props: ButtonProps) => {
 function App() {
   return (
     <div>
-      <button className="btn">Styled btn</button>
+      <button className="border rounded-md px-2 py-1.5 text-blue-800 bg-pink-400 cursor-pointer">
+        Styled btn
+      </button>
 
       {items.map((item) => {
         return (
-          <Button key={item.id} className="btn">
+          <Button
+            key={item.id}
+            className={`
+              border rounded-md
+              px-2 py-1.5
+              text-blue-800
+              bg-pink-400
+              cursor-pointer
+            `}
+          >
             {item.label}
           </Button>
         );
