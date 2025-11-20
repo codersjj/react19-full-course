@@ -17,7 +17,10 @@ const Button = (props: ButtonProps) => {
 function App() {
   return (
     <div>
-      <button className="border rounded-md px-2 py-1.5 text-blue-800 bg-pink-400 cursor-pointer">
+      <button
+        className="border rounded-md px-2 py-1.5 text-blue-800 bg-pink-400 cursor-pointer"
+        style={{ fontSize: "24px", fontWeight: "bold" }}
+      >
         Styled btn
       </button>
 
