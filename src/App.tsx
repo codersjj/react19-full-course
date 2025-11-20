@@ -1,18 +1,10 @@
+import Button from "./components/Button";
+
 const items = [
   { id: 1, label: "Say hello" },
   { id: 2, label: "Hi" },
   { id: 3, label: "Click me" },
 ];
-
-interface ButtonProps {
-  children?: React.ReactNode;
-  className: string;
-}
-
-const Button = (props: ButtonProps) => {
-  const { children, className } = props;
-  return <button className={className}>{children}</button>;
-};
 
 function App() {
   return (
@@ -35,6 +27,7 @@ function App() {
               bg-pink-400
               cursor-pointer
             `}
+            title={item.label}
           >
             {item.label}
           </Button>
