@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useEffectEvent, useState } from "react";
 import Button from "./components/Button";
 
 // const items = [
@@ -19,13 +19,22 @@ function App() {
   // const [isLoading, setIsLoading] = useState(true);
   // const [error, setError] = useState<string>("");
 
-  // see: https://react.dev/learn/you-might-not-need-an-effect
-  const thresholdCrossed = count === 5 ? true : false;
+  const logCount = useEffectEvent(() => {
+    console.log(`Latest count is: ${count}`);
+  });
 
   useEffect(() => {
     console.log("--- useEffect mount ---");
-    document.title = `Count: ${count}`;
-  }, [count]);
+    const intervalId = setInterval(() => {
+      // console.log(`Latest count is: ${count}`);
+      logCount();
+    }, 1000);
+
+    return () => {
+      console.log("--- useEffect clear ---");
+      clearInterval(intervalId);
+    };
+  }, []);
 
   // useEffect(() => {
   //   console.log("useEffect");
@@ -53,7 +62,6 @@ function App() {
       >
         Increment
       </Button>
-      <p>Threshold crossed: {thresholdCrossed ? "true" : "false"}</p>
       <p>Value: {value}</p>
       <input
         type="text"
