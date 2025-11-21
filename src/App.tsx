@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "./components/Button";
 
 // const items = [
@@ -7,13 +7,39 @@ import Button from "./components/Button";
 //   { id: 3, label: "Click me" },
 // ];
 
+type UserType = {
+  name: string;
+  email: string;
+};
+
 function App() {
-  const [value, setValue] = useState("");
-  const [count, setCount] = useState<number>(0);
+  // const [value, setValue] = useState("");
+  // const [count, setCount] = useState<number>(0);
+  const [user, setUser] = useState<UserType | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string>("");
+
+  useEffect(() => {
+    console.log("useEffect");
+    fetch("https://jsonplaceholder.typicode.com/users/1")
+      .then((res) => res.json())
+      .then(setUser)
+      .catch((error) => setError(error.message))
+      .finally(() => setIsLoading(false));
+  }, []);
+
+  if (isLoading) return <div>Loading...</div>;
+
+  if (error) return <div>{error}</div>;
+
+  console.log("user:", user);
 
   return (
     <div className="p-5">
-      <p>Value: {value}</p>
+      <h1>{user?.name}</h1>
+      <p>{user?.email}</p>
+
+      {/* <p>Value: {value}</p>
       <input
         type="text"
         className="mr-4 border"
@@ -33,7 +59,7 @@ function App() {
         onClick={() => setCount((prevState) => prevState + 1)}
       >
         Increment
-      </Button>
+      </Button> */}
       {/* <button
         className="border rounded-md px-2 py-1.5 text-blue-800 bg-pink-400 cursor-pointer"
         style={{ fontSize: "24px", fontWeight: "bold" }}
