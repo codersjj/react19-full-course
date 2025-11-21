@@ -16,23 +16,20 @@ function App() {
         Styled btn
       </button>
 
-      {items.map((item) => {
-        return (
-          <Button
-            key={item.id}
-            className={`
-              border rounded-md
-              px-2 py-1.5
-              text-blue-800
-              bg-pink-400
-              cursor-pointer
-            `}
-            title={item.label}
-          >
-            {item.label}
-          </Button>
-        );
-      })}
+      <div className="flex flex-row justify-center gap-2 mt-4">
+        {items.map((item) => {
+          return (
+            <Button
+              key={item.id}
+              title={item.label}
+              variant="error"
+              className="italic"
+            >
+              {item.label}
+            </Button>
+          );
+        })}
+      </div>
     </div>
   );
 }
