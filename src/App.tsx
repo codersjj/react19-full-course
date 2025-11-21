@@ -18,18 +18,9 @@ function App() {
   // const [user, setUser] = useState<UserType | null>(null);
   // const [isLoading, setIsLoading] = useState(true);
   // const [error, setError] = useState<string>("");
-  const [thresholdCrossed, setThresholdCrossed] = useState(false);
 
-  useEffect(() => {
-    console.log("--- useEffect mount ---");
-    if (count === 5) {
-      console.log(`[THRESHOLD] use reached ${count} clicks!`);
-      // Error: Calling setState synchronously within an effect can trigger cascading renders
-      setThresholdCrossed(true);
-    } else {
-      setThresholdCrossed(false);
-    }
-  }, [count]);
+  // see: https://react.dev/learn/you-might-not-need-an-effect
+  const thresholdCrossed = count === 5 ? true : false;
 
   // useEffect(() => {
   //   console.log("useEffect");
