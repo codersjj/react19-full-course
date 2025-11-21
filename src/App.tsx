@@ -1,32 +1,30 @@
-import { useEffect, useRef, type RefObject } from "react";
+import { useState } from "react";
+import Button from "./components/Button";
 
-interface InputProps {
-  ref: RefObject<HTMLInputElement | null>;
-}
+const useDisclosure = (initialValue: boolean = false) => {
+  const [isOpen, setIsOpen] = useState(initialValue);
 
-// Starting in React 19, you can now access ref as a prop for function components:
-// see: https://react.dev/blog/2024/12/05/react-19#ref-as-a-prop
-const Input = ({ ref, ...props }: InputProps) => {
-  return (
-    <input ref={ref} type="text" placeholder="type something..." {...props} />
-  );
+  const onOpen = () => setIsOpen(true);
+  const onClose = () => setIsOpen(false);
+  const onToggle = () => setIsOpen(!isOpen);
+
+  return {
+    isOpen,
+    onOpen,
+    onClose,
+    onToggle,
+  };
 };
 
 function App() {
-  const inputRef = useRef<HTMLInputElement | null>(null);
-
-  useEffect(() => {
-    if (inputRef.current) {
-      inputRef.current.focus();
-      inputRef.current.value = "hello";
-      inputRef.current.style.background = "pink";
-    }
-  }, []);
+  const { isOpen, onToggle } = useDisclosure();
 
   return (
     <div className="p-5">
-      <h1>Auto Focus</h1>
-      <Input ref={inputRef} />
+      {isOpen && <div className="w-8 h-6 bg-amber-300"></div>}
+      <Button variant="outline" onClick={onToggle}>
+        {isOpen ? "Hide" : "Show"} box
+      </Button>
     </div>
   );
 }
