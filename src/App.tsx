@@ -1,17 +1,19 @@
-import { forwardRef, useEffect, useRef, type InputHTMLAttributes } from "react";
+import { useEffect, useRef, type RefObject } from "react";
 
-// old approach, In React 19, forwardRef is no longer necessary. Pass ref as a prop instead.
-const Input = forwardRef<
-  HTMLInputElement,
-  InputHTMLAttributes<HTMLInputElement>
->((props, ref) => {
+interface InputProps {
+  ref: RefObject<HTMLInputElement | null>;
+}
+
+// Starting in React 19, you can now access ref as a prop for function components:
+// see: https://react.dev/blog/2024/12/05/react-19#ref-as-a-prop
+const Input = ({ ref, ...props }: InputProps) => {
   return (
     <input ref={ref} type="text" placeholder="type something..." {...props} />
   );
-});
+};
 
 function App() {
-  const inputRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
     if (inputRef.current) {
