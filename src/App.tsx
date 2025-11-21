@@ -1,40 +1,20 @@
-import { Suspense, use } from "react";
-
-type UserType = {
-  name: string;
-  email: string;
-};
-
-const fetchUser = async function () {
-  const response = await fetch("https://jsonplaceholder.typicode.com/users/1");
-  if (!response.ok) {
-    throw new Error(
-      `Fetch user data failed, response status: ${response.status}`
-    );
-  }
-
-  return response.json();
-};
-
-const UserInfo = ({ userPromise }: { userPromise: Promise<UserType> }) => {
-  const user = use(userPromise);
-
-  return (
-    <>
-      <h1>{user?.name}</h1>
-      <p>{user?.email}</p>
-    </>
-  );
-};
+import { useEffect, useRef } from "react";
 
 function App() {
-  const userPromise = fetchUser();
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+      inputRef.current.value = "hello";
+      inputRef.current.style.background = "pink";
+    }
+  }, []);
 
   return (
     <div className="p-5">
-      <Suspense fallback={<p>⌛Loading user info...</p>}>
-        <UserInfo userPromise={userPromise} />
-      </Suspense>
+      <h1>Auto Focus</h1>
+      <input ref={inputRef} type="text" placeholder="type something..." />
     </div>
   );
 }
