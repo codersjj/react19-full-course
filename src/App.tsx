@@ -13,7 +13,7 @@ import Button from "./components/Button";
 // };
 
 function App() {
-  // const [value, setValue] = useState("");
+  const [value, setValue] = useState("");
   const [count, setCount] = useState<number>(0);
   // const [user, setUser] = useState<UserType | null>(null);
   // const [isLoading, setIsLoading] = useState(true);
@@ -21,6 +21,11 @@ function App() {
 
   // see: https://react.dev/learn/you-might-not-need-an-effect
   const thresholdCrossed = count === 5 ? true : false;
+
+  useEffect(() => {
+    console.log("--- useEffect mount ---");
+    document.title = `Count: ${count}`;
+  }, [count]);
 
   // useEffect(() => {
   //   console.log("useEffect");
@@ -49,6 +54,14 @@ function App() {
         Increment
       </Button>
       <p>Threshold crossed: {thresholdCrossed ? "true" : "false"}</p>
+      <p>Value: {value}</p>
+      <input
+        type="text"
+        className="mr-4 border"
+        placeholder="Enter"
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+      />
       {/* <h1>{user?.name}</h1>
       <p>{user?.email}</p> */}
 
