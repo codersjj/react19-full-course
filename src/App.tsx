@@ -1,20 +1,5 @@
-import { useState } from "react";
 import Button from "./components/Button";
-
-const useDisclosure = (initialValue: boolean = false) => {
-  const [isOpen, setIsOpen] = useState(initialValue);
-
-  const onOpen = () => setIsOpen(true);
-  const onClose = () => setIsOpen(false);
-  const onToggle = () => setIsOpen(!isOpen);
-
-  return {
-    isOpen,
-    onOpen,
-    onClose,
-    onToggle,
-  };
-};
+import useDisclosure from "./hooks/use-disclosure";
 
 function App() {
   const { isOpen, onToggle } = useDisclosure();
