@@ -7,37 +7,59 @@ import Button from "./components/Button";
 //   { id: 3, label: "Click me" },
 // ];
 
-type UserType = {
-  name: string;
-  email: string;
-};
+// type UserType = {
+//   name: string;
+//   email: string;
+// };
 
 function App() {
   // const [value, setValue] = useState("");
-  // const [count, setCount] = useState<number>(0);
-  const [user, setUser] = useState<UserType | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string>("");
+  const [count, setCount] = useState<number>(0);
+  // const [user, setUser] = useState<UserType | null>(null);
+  // const [isLoading, setIsLoading] = useState(true);
+  // const [error, setError] = useState<string>("");
+  const [thresholdCrossed, setThresholdCrossed] = useState(false);
 
   useEffect(() => {
-    console.log("useEffect");
-    fetch("https://jsonplaceholder.typicode.com/users/1")
-      .then((res) => res.json())
-      .then(setUser)
-      .catch((error) => setError(error.message))
-      .finally(() => setIsLoading(false));
-  }, []);
+    console.log("--- useEffect mount ---");
+    if (count === 5) {
+      console.log(`[THRESHOLD] use reached ${count} clicks!`);
+      // Error: Calling setState synchronously within an effect can trigger cascading renders
+      setThresholdCrossed(true);
+    } else {
+      setThresholdCrossed(false);
+    }
+  }, [count]);
 
-  if (isLoading) return <div>Loading...</div>;
+  // useEffect(() => {
+  //   console.log("useEffect");
+  //   fetch("https://jsonplaceholder.typicode.com/users/1")
+  //     .then((res) => res.json())
+  //     .then(setUser)
+  //     .catch((error) => setError(error.message))
+  //     .finally(() => setIsLoading(false));
+  // }, []);
 
-  if (error) return <div>{error}</div>;
+  // if (isLoading) return <div>Loading...</div>;
 
-  console.log("user:", user);
+  // if (error) return <div>{error}</div>;
+
+  // console.log("user:", user);
 
   return (
     <div className="p-5">
-      <h1>{user?.name}</h1>
-      <p>{user?.email}</p>
+      <p>Count: {count}</p>
+      <Button
+        variant="outline"
+        className="cursor-pointer"
+        // onClick={() => setCount(count + 1)}
+        onClick={() => setCount((prevState) => prevState + 1)}
+      >
+        Increment
+      </Button>
+      <p>Threshold crossed: {thresholdCrossed ? "true" : "false"}</p>
+      {/* <h1>{user?.name}</h1>
+      <p>{user?.email}</p> */}
 
       {/* <p>Value: {value}</p>
       <input
