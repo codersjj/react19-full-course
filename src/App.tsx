@@ -1,16 +1,47 @@
+import { createContext, useContext, useState } from "react";
 import Button from "./components/Button";
-import useDisclosure from "./hooks/use-disclosure";
+
+type ThemeType = "light" | "dark";
+
+type ContextType = {
+  theme: ThemeType;
+  setTheme: (theme: ThemeType) => void;
+};
+
+const Context = createContext<ContextType | null>(null);
 
 function App() {
-  const { isOpen, onToggle } = useDisclosure();
+  const [theme, setTheme] = useState<ThemeType>("light");
 
   return (
-    <div className="p-5">
-      {isOpen && <div className="w-8 h-6 bg-amber-300"></div>}
-      <Button variant="outline" onClick={onToggle}>
-        {isOpen ? "Hide" : "Show"} box
+    <Context.Provider
+      value={{
+        theme,
+        setTheme,
+      }}
+    >
+      <div className="p-5">
+        <Text />
+      </div>
+    </Context.Provider>
+  );
+}
+
+function Text() {
+  const ctx = useContext(Context);
+  if (!ctx)
+    throw new Error(
+      "Theme context is undefined. Please ensure your component is wrapped with ThemeProvider"
+    );
+  const { theme, setTheme } = ctx;
+
+  return (
+    <>
+      <p>{theme}</p>
+      <Button onClick={() => setTheme(theme === "light" ? "dark" : "light")}>
+        Switch theme
       </Button>
-    </div>
+    </>
   );
 }
 
