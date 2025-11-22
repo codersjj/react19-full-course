@@ -1,5 +1,5 @@
 import Button from "./components/Button";
-import { createStore } from "redux";
+import { combineReducers } from "redux";
 import { Provider, useDispatch, useSelector } from "react-redux";
 import { configureStore, createSlice } from "@reduxjs/toolkit";
 
@@ -16,9 +16,9 @@ import { configureStore, createSlice } from "@reduxjs/toolkit";
 //   type: string;
 // };
 
-type CounterState = {
-  count: number;
-};
+// type CounterState = {
+//   count: number;
+// };
 
 // // Reducer
 // const initialState: CounterState = 0;
@@ -50,11 +50,17 @@ const counterSlice = createSlice({
   },
 });
 
+const rootReducer = combineReducers({
+  counter: counterSlice.reducer,
+});
+
 const { increment, decrement } = counterSlice.actions;
 
 const store = configureStore({
-  reducer: counterSlice.reducer,
+  reducer: rootReducer,
 });
+
+type RootState = ReturnType<typeof store.getState>;
 
 function App() {
   return (
@@ -67,7 +73,7 @@ function App() {
 }
 
 const Counter = () => {
-  const count = useSelector((state: CounterState) => state.count);
+  const count = useSelector((state: RootState) => state.counter.count);
   const dispatch = useDispatch();
 
   return (
