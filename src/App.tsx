@@ -48,7 +48,7 @@ import { PersistGate } from "redux-persist/integration/react";
 // const store = createStore(countReducer);
 
 const counterSlice = createSlice({
-  name: "Counter",
+  name: "counter",
   initialState: {
     count: 0,
   },
@@ -70,6 +70,8 @@ const rootReducer = combineReducers({
 const persistConfig = {
   key: "root",
   storage,
+  whitelist: [counterSlice.reducerPath],
+  // blacklist: [counterSlice.reducerPath],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
