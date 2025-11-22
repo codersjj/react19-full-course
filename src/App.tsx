@@ -2,6 +2,9 @@ import Button from "./components/Button";
 import { combineReducers } from "redux";
 import { Provider, useDispatch, useSelector } from "react-redux";
 import { configureStore, createSlice } from "@reduxjs/toolkit";
+import { persistStore, persistReducer } from "redux-persist";
+import storage from "redux-persist/lib/storage";
+import { PersistGate } from "redux-persist/integration/react";
 
 // // Action
 // const increment = () => ({
@@ -54,20 +57,32 @@ const rootReducer = combineReducers({
   counter: counterSlice.reducer,
 });
 
+// persist config
+const persistConfig = {
+  key: "root",
+  storage,
+};
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
 const { increment, decrement } = counterSlice.actions;
 
 const store = configureStore({
-  reducer: rootReducer,
+  reducer: persistedReducer,
 });
+
+const persistor = persistStore(store);
 
 type RootState = ReturnType<typeof store.getState>;
 
 function App() {
   return (
     <Provider store={store}>
-      <div className="p-5">
-        <Counter />
-      </div>
+      <PersistGate persistor={persistor} loading={null}>
+        <div className="p-5">
+          <Counter />
+        </div>
+      </PersistGate>
     </Provider>
   );
 }
