@@ -2,7 +2,16 @@ import Button from "./components/Button";
 import { combineReducers } from "redux";
 import { Provider, useDispatch, useSelector } from "react-redux";
 import { configureStore, createSlice } from "@reduxjs/toolkit";
-import { persistStore, persistReducer } from "redux-persist";
+import {
+  persistStore,
+  persistReducer,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import { PersistGate } from "redux-persist/integration/react";
 
@@ -69,6 +78,13 @@ const { increment, decrement } = counterSlice.actions;
 
 const store = configureStore({
   reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        // see: https://redux-toolkit.js.org/usage/usage-guide#use-with-redux-persist
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }),
 });
 
 const persistor = persistStore(store);
