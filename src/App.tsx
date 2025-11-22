@@ -1,5 +1,6 @@
 import Button from "./components/Button";
-import { ThemeProvider, useTheme } from "./context/theme-provider";
+import { ThemeProvider } from "./context/theme-provider";
+import { useTheme } from "./hooks/useTheme";
 
 function App() {
   return (
