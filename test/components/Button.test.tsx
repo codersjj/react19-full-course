@@ -1,9 +1,9 @@
 import { vi } from "vitest";
-import { cleanup, render, screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import Button from "../../src/components/Button";
 
-describe("Button Component", () => {
+describe("Button Component - Base Rendering", () => {
   beforeEach(() => {
     render(<Button>Click me</Button>);
   });
@@ -28,10 +28,10 @@ describe("Button Component", () => {
 
     expect(btn).toBeInTheDocument();
   });
+});
 
+describe("Button Component - Interactions", () => {
   it("the button should respond to click", async () => {
-    cleanup();
-
     const handleClick = vi.fn();
     render(<Button onClick={handleClick}>Click me</Button>);
 
