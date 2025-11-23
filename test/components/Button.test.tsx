@@ -1,4 +1,6 @@
+import { vi } from "vitest";
 import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import Button from "../../src/components/Button";
 
 describe("Button Component", () => {
@@ -27,5 +29,18 @@ describe("Button Component", () => {
     const btn = screen.getByTestId("custom-btn");
 
     expect(btn).toBeInTheDocument();
+  });
+
+  it("the button should respond to click", async () => {
+    const handleClick = vi.fn();
+    render(<Button onClick={handleClick}>Click me</Button>);
+
+    const btn = screen.getByRole("button", { name: "Click me" });
+
+    expect(btn).toBeInTheDocument();
+
+    await userEvent.click(btn);
+
+    expect(handleClick).toHaveBeenCalledTimes(1);
   });
 });
